@@ -8,9 +8,9 @@ require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ACTION_URL = exports.ACTION_SHORT_SUMMARY = exports.ACTION_ICON = void 0;
-exports.ACTION_ICON = 'https://github.com/kunalnagarco/action-cve/raw/main/icons/ladybug.png';
-exports.ACTION_SHORT_SUMMARY = 'GitHub Action - @kunalnagarco/action-cve';
-exports.ACTION_URL = 'https://github.com/kunalnagarco/action-cve';
+exports.ACTION_ICON = 'https://github.com/indiecampers/action-cve/raw/main/icons/depbot.png';
+exports.ACTION_SHORT_SUMMARY = 'Dependabot';
+exports.ACTION_URL = 'https://github.com/indiecampers/action-cve';
 
 
 /***/ }),
@@ -276,29 +276,32 @@ const createDividerBlock = () => {
 };
 const createAlertBlock = (alert) => {
     var _a, _b, _c, _d, _e;
-    return {
-        type: 'section',
-        text: {
-            type: 'mrkdwn',
-            text: `
-*Package name:* ${alert.packageName}
-*Vulnerability Version Range:* ${(_a = alert.vulnerability) === null || _a === void 0 ? void 0 : _a.vulnerableVersionRange}
-*Patched Version:* ${(_b = alert.vulnerability) === null || _b === void 0 ? void 0 : _b.firstPatchedVersion}
-*Severity:* ${(_c = alert.advisory) === null || _c === void 0 ? void 0 : _c.severity}
-*Summary:* ${(_d = alert.advisory) === null || _d === void 0 ? void 0 : _d.summary}
-            `,
-        },
-        accessory: {
-            type: 'button',
+    if (alert.advisory.severity == 'CRITICAL' ) {
+        return {
+            type: 'section',
             text: {
-                type: 'plain_text',
-                text: 'View Advisory',
-                emoji: true,
+                type: 'mrkdwn',
+                text: `
+    *Package name:* ${alert.packageName}
+    *Vulnerability Version Range:* ${(_a = alert.vulnerability) === null || _a === void 0 ? void 0 : _a.vulnerableVersionRange}
+    *Patched Version:* ${(_b = alert.vulnerability) === null || _b === void 0 ? void 0 : _b.firstPatchedVersion}
+    *Severity:* ${(_c = alert.advisory) === null || _c === void 0 ? void 0 : _c.severity}
+    *Summary:* ${(_d = alert.advisory) === null || _d === void 0 ? void 0 : _d.summary}
+                `,
             },
-            style: 'danger',
-            url: (_e = alert.advisory) === null || _e === void 0 ? void 0 : _e.url,
-        },
+            accessory: {
+                type: 'button',
+                text: {
+                    type: 'plain_text',
+                    text: 'View Advisory',
+                    emoji: true,
+                },
+                style: 'danger',
+                url: (_e = alert.advisory) === null || _e === void 0 ? void 0 : _e.url,
+            },
+        };
     };
+    return null;
 };
 const createMaxAlertsMarkdownNotice = () => {
     return `*Note:* Only ${exports.MAX_COUNT_SLACK} have been sent due to message length restrictions.`;
@@ -313,7 +316,9 @@ const sendAlertsToSlack = (webhookUrl, alerts) => __awaiter(void 0, void 0, void
     const webhook = new webhook_1.IncomingWebhook(webhookUrl);
     const alertBlocks = [];
     for (const alert of alerts) {
-        alertBlocks.push(createAlertBlock(alert));
+        let alt = createAlertBlock(alert);
+        if (alt != null)
+            alertBlocks.push(alt);
     }
     yield webhook.send({
         blocks: [
@@ -1316,8 +1321,8 @@ class OidcClient {
             const res = yield httpclient
                 .getJson(id_token_url)
                 .catch(error => {
-                throw new Error(`Failed to get ID Token. \n 
-        Error Code : ${error.statusCode}\n 
+                throw new Error(`Failed to get ID Token. \n
+        Error Code : ${error.statusCode}\n
         Error Message: ${error.result.message}`);
             });
             const id_token = (_a = res.result) === null || _a === void 0 ? void 0 : _a.value;
@@ -38851,7 +38856,7 @@ module.exports = JSON.parse('{"name":"nodemailer","version":"6.7.5","description
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/ 	
+/******/
 /******/ 	// The require function
 /******/ 	function __nccwpck_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -38865,7 +38870,7 @@ module.exports = JSON.parse('{"name":"nodemailer","version":"6.7.5","description
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
-/******/ 	
+/******/
 /******/ 		// Execute the module function
 /******/ 		var threw = true;
 /******/ 		try {
@@ -38874,24 +38879,24 @@ module.exports = JSON.parse('{"name":"nodemailer","version":"6.7.5","description
 /******/ 		} finally {
 /******/ 			if(threw) delete __webpack_module_cache__[moduleId];
 /******/ 		}
-/******/ 	
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/ 	
+/******/
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat */
-/******/ 	
+/******/
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
-/******/ 	
+/******/
 /************************************************************************/
-/******/ 	
+/******/
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
 /******/ 	var __webpack_exports__ = __nccwpck_require__(3109);
 /******/ 	module.exports = __webpack_exports__;
-/******/ 	
+/******/
 /******/ })()
 ;
 //# sourceMappingURL=index.js.map

@@ -27,29 +27,36 @@ const createDividerBlock = (): KnownBlock => {
 }
 
 const createAlertBlock = (alert: Alert): KnownBlock => {
-  return {
-    type: 'section',
-    text: {
-      type: 'mrkdwn',
-      text: `
-*Package name:* ${alert.packageName}
-*Vulnerability Version Range:* ${alert.vulnerability?.vulnerableVersionRange}
-*Patched Version:* ${alert.vulnerability?.firstPatchedVersion}
-*Severity:* ${alert.advisory?.severity}
-*Summary:* ${alert.advisory?.summary}
-            `,
-    },
-    accessory: {
-      type: 'button',
+  if (alert.advisory?.severity == 'CRITICAL' ) {
+    return {
+      type: 'section',
       text: {
-        type: 'plain_text',
-        text: 'View Advisory',
-        emoji: true,
+        type: 'mrkdwn',
+        text: `
+  *Package name:* ${alert.packageName}
+  *Vulnerability Version Range:* ${alert.vulnerability?.vulnerableVersionRange}
+  *Patched Version:* ${alert.vulnerability?.firstPatchedVersion}
+  *Severity:* ${alert.advisory?.severity}
+  *Summary:* ${alert.advisory?.summary}
+              `,
       },
-      style: 'danger',
-      url: alert.advisory?.url,
-    },
+      accessory: {
+        type: 'button',
+        text: {
+          type: 'plain_text',
+          text: 'View Advisory',
+          emoji: true,
+        },
+        style: 'danger',
+        url: alert.advisory?.url,
+      },
+    }
   }
+
+  return {
+    "type": "divider"
+  }
+
 }
 
 const createMaxAlertsMarkdownNotice = (): string => {
