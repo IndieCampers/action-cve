@@ -263,7 +263,7 @@ const createSummaryBlock = (alertCount, repositoryName, repositoryOwner) => {
         text: {
             type: 'mrkdwn',
             text: `
-        You have ${alertCount} vulnerabilities in *${repositoryOwner}/${repositoryName}*.
+        @here You have ${alertCount} vulnerabilities in *${repositoryOwner}/${repositoryName}*.
 ${alertCount > exports.MAX_COUNT_SLACK ? createMaxAlertsMarkdownNotice() : ''}
       `,
         },
